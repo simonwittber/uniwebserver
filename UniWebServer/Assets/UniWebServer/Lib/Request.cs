@@ -31,7 +31,9 @@ namespace UniWebServer
 
         public void Close ()
         {
-			
+		if (stream != null) {
+			stream.Close();
+		}
         }
 
         public override string ToString ()
