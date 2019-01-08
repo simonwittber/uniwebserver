@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
@@ -22,7 +23,7 @@ namespace UniWebServer
         {
             // check if file exist at folder (need to assume a base local root)
             string folderRoot = Application.streamingAssetsPath;
-            string fullPath = folderRoot + request.uri.LocalPath;
+            string fullPath = folderRoot + Uri.UnescapeDataString(request.uri.LocalPath);
             // get file extension to add to header
             string fileExt = Path.GetExtension(fullPath);
             // not found
