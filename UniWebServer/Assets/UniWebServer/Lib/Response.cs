@@ -18,6 +18,7 @@ namespace UniWebServer
 
         public Response ()
         {
+            headers = new Headers();
             stream = new MemoryStream();
             writer = new StreamWriter (stream);
         }
