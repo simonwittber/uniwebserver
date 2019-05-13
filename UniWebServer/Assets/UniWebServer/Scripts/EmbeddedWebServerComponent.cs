@@ -45,25 +45,35 @@ namespace UniWebServer
             }
         }
 
-        void HandleRequest (Request request, Response response)
+
+
+        void HandleRequest(Request request, Response response)
         {
-            if (resources.ContainsKey (request.uri.LocalPath)) {
-                try {
-                    resources [request.uri.LocalPath].HandleRequest (request, response);
-                } catch (Exception e) {
-                    response.statusCode = 500;
-                    response.Write (e.Message);
+            // get first part of the directory
+            string folderRoot = Helper.GetFolderRoot(request.uri.LocalPath);
+            if (resources.ContainsKey(folderRoot))
+            {
+                try
+                {
+                    resources[folderRoot].HandleRequest(request, response);
                 }
-            } else {
+                catch (Exception e)
+                {
+                    response.statusCode = 500;
+                    response.Write(e.Message);
+                }
+            }
+            else
+            {
                 response.statusCode = 404;
                 response.message = "Not Found.";
-                response.Write (request.uri.LocalPath + " not found.");
+                response.Write(request.uri.LocalPath + " not found.");
             }
         }
 
-        public void AddResource (string path, IWebResource resource)
+        public void AddResource(string path, IWebResource resource)
         {
-            resources [path] = resource;
+            resources[path] = resource;
         }
 
     }
