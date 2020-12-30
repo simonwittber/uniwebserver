@@ -23,7 +23,15 @@ namespace UniWebServer
         {
             // check if file exist at folder (need to assume a base local root)
             string folderRoot = Application.streamingAssetsPath;
-            string fullPath = folderRoot + Uri.UnescapeDataString(request.uri.LocalPath);
+            
+            // if path is empty, assume request for index.html
+            string localPath = Uri.UnescapeDataString(request.uri.LocalPath);
+            if(string.IsNullOrEmpty(localPath) || localPath == "/")
+            {
+                localPath = "/index.html";
+            }
+            
+            string fullPath = folderRoot + localPath;
             // get file extension to add to header
             string fileExt = Path.GetExtension(fullPath);
             // not found
